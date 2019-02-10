@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Filter Manusia</title>
+    <style>
+        fieldset {
+            width: 700px;
+            padding: 20px;
+        }
+
+        .tabelData, th{
+            border-collapse: collapse;
+            border: 2px solid black;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <fieldset id="filter">
+        <legend>Filter</legend>
+        Nama : <input type="text" id="filterNama"> <br> <br>
+        Umur : <input type="text" id="umur1"> - <input type="text" id="umur2">
+        <div id="kerjaan">
+            <br> Pekerjaan <select id="fPekerjaan"></select> <br> <br>
+        </div>
+        <input type="button" id="search" onclick="search()" value="Search">
+    </fieldset>
+    <fieldset id="Add">
+        <legend>Input Data</legend>
+        <table>
+            <tr>
+                <td><input type="text" placeholder="Nama" id="submitNama"></td>
+                <td><input type="text" placeholder="Umur" id="submitUmur"></td>
+                <td><input type="text" placeholder="Pekerjaan" id="submitPekerjaan"></td>
+            </tr>
+            <tr>
+                <td><br> <input type="button" id="add" onclick="add()" value="submit"></td>
+            </tr>
+        </table>
+    </fieldset>
+    <br><br>
+    <div id="tabelData"></div>
+
+    <script>
+        var data = []
+
+        class Manusia {
+            constructor(nama, umur, pekerjaan) {
+                this.nama = nama;
+                this.umur = umur;
+                this.pekerjaan = pekerjaan;
+
+            }
+        }
+
+
+        function add() {
+            var nama = document.getElementById("submitNama");
+            var umur = document.getElementById("submitUmur");
+            var pekerjaan = document.getElementById("submitPekerjaan");
+
+            if (nama.value == '' || umur.value == '' || pekerjaan.value == '') {
+                alert('Input data harus diisi lengkap')
+            } else {
+                var dataOrang = new Manusia(nama.value, umur.value, pekerjaan.value);
+                data.push(dataOrang);
+                tampilData(data);
+                nama.value = '';
+                umur.value = '';
+                pekerjaan.value = '';
+                setDropDown();
+
+            }
+        }
+
+        function tampilData(dataTampil) {
+            var tabelData = '';
+            console.log(dataTampil);
+            for (var i = 0; i < dataTampil.length; i++) {
+                tabelData +=
+                    `<tr>
+                        <td>${dataTampil[i].nama}</td>
+                        <td>${dataTampil[i].umur}</td>
+                        <td>${dataTampil[i].pekerjaan}</td>
+                       </tr>`
+            }
+
+            document.getElementById("tabelData").innerHTML =
+                `<table class='tabelData'>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Umur</th>
+                        <th>Pekerjaan</th>
+                    </tr> ${tabelData}
+                </table>`
+
+        }
+
+        function search() {
+            var newData = [];
+            var fNama = document.getElementById('filterNama').value;
+            var fUmur1 = document.getElementById('umur1').value;
+            var fUmur2 = document.getElementById('umur2').value;
+            var fPekerjaan = document.getElementById('fPekerjaan').value;
+
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].nama.includes(fNama) && data[i].pekerjaan.includes(fPekerjaan)) {
+                    if (fUmur1 != '' && fUmur2 != '') {
+                        if (parseInt(data[i].umur) >= parseInt(fUmur1) && parseInt(data[i].umur) <= parseInt(fUmur2)) {
+                            newData.push(data[i])
+                        }
+                    } else {
+                        newData.push(data[i])
+                    }
+                }
+            }
+
+            tampilData(newData);
+
+        }
+
+        function setDropDown() {
+            var option = `<option value = '' selected></option>`
+            var optionList = [];
+
+            for (var i = 0; i < data.length; i++) {
+                var lolos = 1;
+
+                for (var j = 0; j < data.length; j++) {
+                    if (data[i].pekerjaan == optionList[j]) {
+                        lolos = 0;
+                    }
+
+                }
+
+                if (lolos == 1) {
+                    option += `<option value = '${data[i].pekerjaan}'>${data[i].pekerjaan}</option>`;
+                    optionList.push(data[i].pekerjaan);
+
+                }
+            }
+
+            document.getElementById('kerjaan').innerHTML = "pekerjaan <select id='fPekerjaan'>" + option + "</select>";
+
+        }
+    </script>
+
+</body>
+
+</html>

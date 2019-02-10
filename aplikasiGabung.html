@@ -1,0 +1,50 @@
+<script>
+    // function angka terbesar
+    function angkaTerbesar(a, b, c) {
+    var hasilTerbesar = 0
+    if (a >= hasilTerbesar) {
+        hasilTerbesar = a
+    }
+
+    if (b >= hasilTerbesar) {
+        hasilTerbesar = b
+    }
+
+    if (c >= hasilTerbesar) {
+        hasilTerbesar = c
+    }
+
+    return (hasilTerbesar)
+
+
+}
+
+
+    // function ganjil or genap
+    function ganjilGenap(input) {
+        if (input % 2 == 0) {
+            hasil = input + ' adalah bilangan genap'
+        } else {
+            hasil = input + ' adalah bilangan ganjil'
+        }
+        return hasil
+    }
+
+
+    // function hapus huruf vokal
+    function hapusVokal(input) {
+        var hasil = input.replace(/a/g, '').replace(/i/g, '').replace(/u/g, '').replace(/e/g, '').replace(/o/g, '')
+        return hasil
+    }
+
+    var menu = prompt('pilih menu : \n1. filter angka terbesar\n2. bilangan ganjil or genap\n3. hapus huruf vokal')
+    if (menu == 1) {
+        var a = parseInt(prompt('mausukan nilai 1 :'))
+        var b = parseInt(prompt('masukkan nilai 2 :'))
+        var c = parseInt(prompt('masukkan nilai 3 :'))
+    
+        alert('nilai terbesarnya adalah ' + angkaTerbesar(a, b, c) ) 
+
+    }
+    
+</script>
