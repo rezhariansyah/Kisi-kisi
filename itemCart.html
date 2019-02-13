@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>items cart tools</title>
+    <style>
+        table, td, th {
+            border-collapse: collapse;
+            border: 1px solid black;
+            padding: 20px;
+        }
+        input {
+            margin: 10px;
+        }
+        img {
+            width: 50px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Submit your item</h1>
+        <table>
+            <td>
+                <input type="text" placeholder="Item's Name" id="item"> <br>
+                <input type="text" placeholder="Link Image" id="img"> <br>
+                <input type="text" placeholder="Item Price" id="price"> <br>
+                <input type="button" value="Submit" onclick="add()">
+
+            </td>
+
+        </table>
+        <h3 id="stats">Empty Item</h3>
+        <table id="itemTable">
+        </table>
+        
+    </center>
+
+    <script>
+        class Item {
+            constructor(item, img, price) {
+                this.item = item;
+                this.img = img;
+                this.price = price;
+            }
+        }
+
+        data = []
+
+        function add() {
+            var item = document.getElementById('item');
+            var img = document.getElementById('img');
+            var price = document.getElementById('price');
+
+            if (item.value == '' || img.value == '' || price.value == '') {
+                alert('You must complete the form')
+            } else {
+                var itemData = new Item(item.value, img.value, price.value);
+                data.push(itemData);
+                showItem(data);
+                item.value = '';
+                img.value = '';
+                price.value = '';
+            }
+        }
+
+        function showItem(arr) {
+            if (arr.length > 0) {
+                var a = arr.map(function (val, index) {
+                    return `<tr>
+                            <td>${val.item}</td>
+                            <td><img src='${val.img}'></td>
+                            <td>${val.price}</td>
+                            <td><input type ="button" value ="Remove" onclick ="remove(${index})"></td>
+                        </tr>`
+                })
+                var th =
+                    `<thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Delete</th>
+                        </tr> ${a.join('')}
+                    </thead>`
+
+                document.getElementById('itemTable').innerHTML = th
+                document.getElementById('stats').innerHTML = `Your total item is ${data.length}`
+            } else {
+                if (data.length == 0) {
+                document.getElementById('stats').innerHTML = 'Empty Cart'
+                document.getElementById('itemTable').innerHTML = ''
+            }
+            }
+        }
+        showItem(data)
+
+        function remove(a){
+            if(confirm('Are you sure to remove ' + data[a].nama + '?')) {
+                data.splice(a,1)
+                showItem(data)
+                
+            }
+        }
+    </script>
+</body>
+
+</html>
